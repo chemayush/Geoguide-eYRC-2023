@@ -1,0 +1,93 @@
+Image Processing and Event Detection:
+We created a custom object detection dataset using the image classification dataset provided by eYRC. These images were positioned on the arena image within specific event boxes using a Python script. Subsequently, we trained a YOLOv8 model with this dataset. The "nearimg.py" script employs this model to detect events by recording fifty frames and storing the label predictions for each frame. The label with the highest frequency of prediction for each box is selected as the final label for that event, and these final labels are compiled into a dictionary.
+
+The positions (A, B, C, D, E) for the detected images are assigned based on proximity to specific ArUco markers:
+
+A: 21
+B: 29
+C: 30
+D: 34
+E: 48
+The script assigns positions to each detected image according to the nearest ArUco marker from the list above.
+
+Model Link: https://drive.google.com/file/d/1rDzmSbSvJxoFKGZwWu__cZxNBa9eZOll/view?usp=sharing
+
+
+----------------------------------------------------------------------------------
+
+
+Path Planning:
+The "nearimg.py" script also handles path planning. The arena is transformed into a graph, represented by an adjacency matrix (named 'arena'). Each road in the arena is assigned a weight based on its length and difficulty to traverse, and each node is given a fixed coordinate. We utilize Depth-First Search (DFS) on this graph to identify all possible paths from one point to another, ultimately selecting the shortest path with the fewest turns. This approach can be referred to as the "Fastest Path Algorithm."
+
+The number of turns in a path is determined as follows:
+
+Calculate the difference between the coordinates of the next and current node (dx1, dy1).
+Calculate the difference between the coordinates of the current and previous node (dx2, dy2).
+A turn is identified if dx1 != dx2 and dy1 != dy2.
+The dictionary of detected images is input into this algorithm to calculate the fastest path for the robot to traverse. This path and the events dictionary are saved in a text file for the "traversal.py" script to access.
+
+
+----------------------------------------------------------------------------------
+
+
+Traversal:
+The "traversal.py" script manages traversal. It retrieves the saved path and events dictionary to transmit to the robot using sockets. Initially, the robot is activated, and then the script is run to send the data. Upon receiving the path, the robot begins to traverse it. The robot's location, indicated by the pixel coordinates of the ArUco marker 100, is continuously sent to the robot in real time via sockets. When the robot reaches the coordinates of a specific event, it stops. Additionally, the latitude and longitude of the nearest ArUco marker are recorded in a CSV file for access by QGIS.
+
+
+----------------------------------------------------------------------------------
+
+
+Line Following:
+
+A. Middle Line Following:
+
+    Line following algorithm for following the roads of type-2. It uses the 
+    Left, Middle, and Right sensors to navigate by sensing the line that 
+    runs through the middle of the road.
+
+    Abbreviations:
+    LS: Left Sensor
+    MS: Middle Sensor
+    RS: Right Sensor
+
+    -> If only the MS is detecting the line (LS = 0, MS = 1, RS = 0), move forward.
+    -> If both the LS and MS are detecting the line (LS = 1, MS = 1, RS = 0), 
+       turn slightly to the left
+    -> If both LS and MS are detecting the line (LS = 1, MS = 0, RS = 0), 
+       turn to the left more sharply.
+    -> If both MS and RS is detecting the line (LS = 0, MS = 1, RS = 1), 
+       turn slightly to the right.
+    -> If only RS is detecting the line (LS = 0, MS = 0, RS = 1), 
+       turn to the right more sharply.
+    -> If all sensors (LS, MS, RS) are detecting the line, it indicates a node. 
+       Execute the nodeRoutine() function to determine the next action.
+    -> If no sensors are detecting the line (LS = 0, MS = 0, RS = 0), and the robot 
+       is at the last node (nextNode == 0 and currNode == 1), stop the robot, signal 
+       completion, and enter an infinite loop to cease further movement. 
+       Otherwise, continue moving forward, assuming temporary loss of the line.
+
+B. Extreme Line Following:
+
+    Line following algorithm for following the roads of type-1. It uses the
+    extreme right and extreme left sensors to sense the black lines on the 
+    extreme sides of the road. 
+
+    Abbreviations:
+    ER: Extreme Right
+    R: Right
+    L: Left
+    EL: Extreme Left
+    els (it's a variable): Extreme Line State
+
+    -> If the ER sensor is '1', then it takes a slight left. 
+       els = RIGHT
+    -> If the EL sensor is '1', then it takes a slight right.
+       els = LEFT
+    -> If the R sensor is '1', that would mean that ER sensor wasn't 
+       able to sense the black line, hence it takes a left until the ER
+       sensor is on black line.
+       els = RIGHT
+    -> If the L sensor is '1', that would mean that EL sensor wasn't 
+       able to sense the black line, hence it takes a right until the ER
+       sensor is on black line.
+       els = LEFT

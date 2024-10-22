@@ -1,0 +1,86 @@
+Team ID = GG_1949
+Trained weights drive link = "https://drive.google.com/drive/folders/1TE_xdjKTF5gcAW3jsgfzm37yvR5nc72_?usp=sharing"
+
+###############################################################################
+'''
+Please write the complete steps taken by your team explaining how you completed Task 2B. It is adviced to be as elaborate as possible.
+
+1. We started by learning about the basics of CNN as none of us had studied about it before. The video references provided by eyrc team were very helpful.
+
+2. We then thoroughly went through the tensorflow documentation and saw some online tutorials for the same. 
+
+3. Next we tried to train our model using a very basic 5 layer CNN. However we got the following metrics:
+	a. Training accuracy = 80.93%
+	b. Validation accuracy = 54.2%
+	c. Test accuracy = 60.38%
+The above numbers weren't really good enough for a high score.
+
+4. We started to read about transfer learning methods and different pre trained models.
+	
+	NOTE: All the training parameters in all the below models were kept same :-
+		a. Batch Size = 32
+		b. Learning Rate = 0.0001
+		c. Loss = Categorical Cross-entropy
+		d. Optimizer = Adam
+		e. Image Augmentation and Early Stopping were applied in all of them.
+	
+	A. MobileNetV2: This was the first pre trained model we had used to train our model on. MNV2 was our first choice because it is specifically made to be efficiently used in mobile and embedded devices.
+			
+			a. Training accuracy = 97.54%
+			b. Validation accuracy = 95%
+			c. Test accuracy = 96.57%
+			e. Evaluator score = 38/40
+
+	B. VGG16: We next tried training our model on VGG16 as it is one of the most popular pre trained model right now. However, the results weren't much impressive either.
+
+			a. Training accuracy = 90.37%
+			b. Validation accuracy = 88%%
+			c. Test accuracy = 87.28%
+			e. Evaluator score = 36.4/40
+
+	C. Resnet50: 
+
+			a. Training accuracy = 96.29%
+			b. Validation accuracy = 93.33%
+			c. Test accuracy = 95.24%
+			e. Evaluator score = 37.6/40
+	
+	D. Xception:
+
+			a. Training accuracy = 98.9%
+			b. Validation accuracy = 95%
+			c. Test accuracy = 96%
+			e. Evaluator score = 38.4/40
+			
+			After this, we had increased the number of images in our dataset and tried training the model on this new dataset. We saw an increase in our score!
+			
+			a. Training accuracy = 99.3%
+			b. Validation accuracy = 95%
+			c. Test accuracy = 96.92%
+			e. Evaluator score = 39.2/40
+
+	E. InceptionResnetV2: While researching we found this particular model on Kaggle. After training on it, we again got the score of 39.2/40.
+			
+			a. Training accuracy: 99.1%
+			b. Validation accuracy: 95%
+			c. Test accuracy: 95%
+			d. Evaluator score: 39.2/40
+
+	F. InceptionV2: We got our best results on this model.
+			
+			a. Training accuracy = 96.3%
+			b. Validation accuracy = 96.67%
+			c. Test accuracy = 96.29%
+			e. Evaluator score = 39.6/40
+
+			We then refined the original neural network and added some dropout layers and Batch Normalization. 
+
+			a. Training accuracy = 96.54%
+			b. Validation accuracy = 96.67%
+			c. Test accuracy = 96.36%
+			e. Evaluator score = 40/40
+	
+Final Evaluation: We then trained all pre-trained models on the refined neural network. However, InceptionV2 remained the top-performing model in our experiments.
+
+In summary, our team followed a systematic approach, initially experimenting with basic CNNs and gradually transitioning to pre-trained models. Taking into consideration our perfect Evaluator score of 40/40, we conclude InceptionV2 as our pre-trained model of choice for Task 2B.
+	

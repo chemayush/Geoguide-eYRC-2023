@@ -1,0 +1,19 @@
+Team ID = GG_1949
+Trained weights drive link = "https://drive.google.com/drive/folders/1TE_xdjKTF5gcAW3jsgfzm37yvR5nc72_?usp=drive_link"    
+###############################################################################
+'''
+Please write the complete steps taken by your team explaining how you completed Task 2C. It is adviced to be as elaborate as possible.
+
+1. As we had to separate the 5 events from the arena, we first tried to do it using contours and edge detection. However more than 80 squares were being detected, including aruco markers. Hence, we thought that it won't be feasible to do so.
+
+2. As it was given that the positions of the images will remain constant, we decided to use this to our advantage. We displayed the arena image, and then noted down the coordinates of all 5 images on the arena.
+
+3. We used these coordinates to mark and separate the 5 images. After separating them, we stored them in a list which was further passed through the model. 
+
+4. At first we decided to use the same model that we used in Task 2B, as it was performing very well.
+
+5. Next we decided to try a different approach to train the model. We decided to resize all the dataset images to 50x50 pixels size and then train them. For this, we had used all the pre trained models and networks that we had described in Task 2B. However, the maximum accuracy we achieved was 80%. 
+
+6. We ran the evaluator 15 times, out of which 12 times we got a score of 30/30, 2 times 24/30, and 1 time 18/30.
+
+
